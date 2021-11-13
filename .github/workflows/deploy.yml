@@ -15,13 +15,12 @@ jobs:
       - name: "Init repository"
         uses: actions/checkout@v2
 
-      # - name: Run Snyk to check for vulnerabilities
-      #   uses: snyk/actions/node@master
-
-      - name: Ignore vulnerabilities
-        run: snyk wizard
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: "Setup Node"
         uses: actions/setup-node@v2
